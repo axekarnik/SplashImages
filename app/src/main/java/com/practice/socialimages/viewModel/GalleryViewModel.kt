@@ -1,9 +1,9 @@
 package com.practice.socialimages.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.practice.socialimages.data.UnSplashPhoto
 import com.practice.socialimages.repo.UnsplashRepo
 
@@ -14,9 +14,17 @@ class GalleryViewModel(val repo : UnsplashRepo) : ViewModel() {
         private const val DEFAULT_QUERY = "dogs"
     }
 
-    val photos : LiveData<PagingData<UnSplashPhoto>> = repo.getSearchResult(query = "cats")
+//    val photos : LiveData<PagingData<UnSplashPhoto>> = repo.getSearchResult(query = "landscape")
+
+    val photos = currentQuery.switchMap {queryString ->
+        repo.getSearchResult(queryString).cachedIn(viewModelScope)
+
+    }
+
 
     fun searchPhoto(query: String) {
         currentQuery.value = query
+//        Log.v("Akshay", "Inside search photo")
+//        repo.getSearchResult(query = query)
     }
 }
