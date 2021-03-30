@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class RetrofitInstance  {
-    private lateinit  var instance : RetrofitInstance
     companion object {
         const val BASE_URL = "https://api.unsplash.com/"
         val interceptor = HttpLoggingInterceptor().apply {
